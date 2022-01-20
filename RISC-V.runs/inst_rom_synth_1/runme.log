@@ -1,0 +1,70 @@
+
+*** Running vivado
+    with args -log inst_rom.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source inst_rom.tcl
+
+
+****** Vivado v2017.3 (64-bit)
+  **** SW Build 2018833 on Wed Oct  4 19:58:22 MDT 2017
+  **** IP Build 2016188 on Wed Oct  4 21:52:56 MDT 2017
+    ** Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
+
+source inst_rom.tcl -notrace
+ERROR: [Common 17-345] A valid license was not found for feature 'Synthesis' and/or device 'xc7vx485t'. Please run the Vivado License Manager for assistance in determining
+which features and devices are licensed for your system.
+Resolution: Check the status of your licenses in the Vivado License Manager. For debug help search Xilinx Support for "Licensing FAQ". 
+
+*** Running vivado
+    with args -log inst_rom.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source inst_rom.tcl
+
+
+****** Vivado v2017.3 (64-bit)
+  **** SW Build 2018833 on Wed Oct  4 19:58:22 MDT 2017
+  **** IP Build 2016188 on Wed Oct  4 21:52:56 MDT 2017
+    ** Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
+
+source inst_rom.tcl -notrace
+ERROR: [Common 17-345] A valid license was not found for feature 'Synthesis' and/or device 'xc7vx485t'. Please run the Vivado License Manager for assistance in determining
+which features and devices are licensed for your system.
+Resolution: Check the status of your licenses in the Vivado License Manager. For debug help search Xilinx Support for "Licensing FAQ". 
+
+*** Running vivado
+    with args -log inst_rom.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source inst_rom.tcl
+
+
+****** Vivado v2017.3 (64-bit)
+  **** SW Build 2018833 on Wed Oct  4 19:58:22 MDT 2017
+  **** IP Build 2016188 on Wed Oct  4 21:52:56 MDT 2017
+    ** Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
+
+source inst_rom.tcl -notrace
+Starting RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:10 . Memory (MB): peak = 398.629 ; gain = 70.500
+INFO: [Synth 8-638] synthesizing module 'inst_rom' [d:/vivado/RISC-V/RISC-V.srcs/sources_1/ip/inst_rom/synth/inst_rom.vhd:68]
+INFO: [Synth 8-256] done synthesizing module 'inst_rom' (9#1) [d:/vivado/RISC-V/RISC-V.srcs/sources_1/ip/inst_rom/synth/inst_rom.vhd:68]
+Finished RTL Elaboration : Time (s): cpu = 00:01:09 ; elapsed = 00:01:13 . Memory (MB): peak = 608.188 ; gain = 280.059
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:01:09 ; elapsed = 00:01:13 . Memory (MB): peak = 608.188 ; gain = 280.059
+INFO: [Device 21-403] Loading part xc7vx485tffg1157-1
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.055 . Memory (MB): peak = 834.188 ; gain = 0.000
+Finished Constraint Validation : Time (s): cpu = 00:01:25 ; elapsed = 00:01:35 . Memory (MB): peak = 834.188 ; gain = 506.059
+Finished Loading Part and Timing Information : Time (s): cpu = 00:01:25 ; elapsed = 00:01:35 . Memory (MB): peak = 834.188 ; gain = 506.059
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:01:25 ; elapsed = 00:01:35 . Memory (MB): peak = 834.188 ; gain = 506.059
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:25 ; elapsed = 00:01:36 . Memory (MB): peak = 834.188 ; gain = 506.059
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:26 ; elapsed = 00:01:36 . Memory (MB): peak = 834.188 ; gain = 506.059
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:34 ; elapsed = 00:01:44 . Memory (MB): peak = 847.762 ; gain = 519.633
+Finished Timing Optimization : Time (s): cpu = 00:01:34 ; elapsed = 00:01:44 . Memory (MB): peak = 849.766 ; gain = 521.637
+Finished Technology Mapping : Time (s): cpu = 00:01:34 ; elapsed = 00:01:44 . Memory (MB): peak = 858.902 ; gain = 530.773
+Finished IO Insertion : Time (s): cpu = 00:01:34 ; elapsed = 00:01:45 . Memory (MB): peak = 858.902 ; gain = 530.773
+Finished Renaming Generated Instances : Time (s): cpu = 00:01:34 ; elapsed = 00:01:45 . Memory (MB): peak = 858.902 ; gain = 530.773
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:34 ; elapsed = 00:01:45 . Memory (MB): peak = 858.902 ; gain = 530.773
+Finished Renaming Generated Ports : Time (s): cpu = 00:01:34 ; elapsed = 00:01:45 . Memory (MB): peak = 858.902 ; gain = 530.773
+Finished Handling Custom Attributes : Time (s): cpu = 00:01:34 ; elapsed = 00:01:45 . Memory (MB): peak = 858.902 ; gain = 530.773
+Finished Renaming Generated Nets : Time (s): cpu = 00:01:34 ; elapsed = 00:01:45 . Memory (MB): peak = 858.902 ; gain = 530.773
+
+Report Cell Usage: 
++------+-----------+------+
+|      |Cell       |Count |
++------+-----------+------+
+|1     |RAMB36E1   |     1|
+|2     |RAMB36E1_1 |     1|
++------+-----------+------+
+Finished Writing Synthesis Report : Time (s): cpu = 00:01:34 ; elapsed = 00:01:45 . Memory (MB): peak = 858.902 ; gain = 530.773
+synth_design: Time (s): cpu = 00:01:35 ; elapsed = 00:01:47 . Memory (MB): peak = 884.012 ; gain = 594.047
