@@ -21,7 +21,7 @@ module if_stage (
 
     always @(posedge cpu_clk_50M) begin
         if (ice == `CHIP_DISABLE)
-            pc <= `PC_INIT;                   // 指令存储器禁用的时候，PC保持初始值（MiniMIPS32中设置为0x00000000）
+            pc <= `PC_INIT;                   // 指令存储器禁用的时候，PC保持初始值
         else begin
             pc <= pc_next;                    // 指令存储器使能后，PC值每时钟周期加4 	
         end

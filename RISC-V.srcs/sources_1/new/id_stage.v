@@ -69,18 +69,18 @@ module id_stage(
     assign rreg2 = (cpu_rst_n == `RST_ENABLE) ? 1'b0 : inst_and;
     /*------------------------------------------------------------------------------*/
 
-    // 读通用寄存器堆端口1的地址为rs字段，读端口2的地址为rt字段
+    // 读通用寄存器堆端口1的地址为rs1字段，读端口2的地址为rs2字段
     assign ra1   = (cpu_rst_n == `RST_ENABLE) ? `ZERO_WORD : rs1;
     assign ra2   = (cpu_rst_n == `RST_ENABLE) ? `ZERO_WORD : rs2;
                                             
-    // 获得待写入目的寄存器的地址（rt或rd）
+    // 获得待写入目的寄存器的地址
     assign id_wa_o      = (cpu_rst_n == `RST_ENABLE) ? `ZERO_WORD : rd;
 
-    // 获得源操作数1。如果shift信号有效，则源操作数1为移位位数；否则为从读通用寄存器堆端口1获得的数据
+    // 获得源操作数1
     assign id_src1_o = (cpu_rst_n == `RST_ENABLE) ? `ZERO_WORD :
                        (rreg1 == `READ_ENABLE   ) ? rd1 : `ZERO_WORD;
 
-    // 获得源操作数2。如果immsel信号有效，则源操作数1为立即数；否则为从读通用寄存器堆端口2获得的数据
+    // 获得源操作数2
     assign id_src2_o = (cpu_rst_n == `RST_ENABLE) ? `ZERO_WORD :
                        (rreg2 == `READ_ENABLE   ) ? rd2 : `ZERO_WORD;
 
