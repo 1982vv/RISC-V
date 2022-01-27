@@ -42,13 +42,26 @@
 `define RISCV_LUI             8'h01
 `define RISCV_SLL             8'h1E
 `define RISCV_ADD             8'h1C
+`define RISCV_ADDI            8'h13
+`define RISCV_SLTI            8'h14
+`define RISCV_SLTIU           8'h15
+`define RISCV_XORI            8'h16
+`define RISCV_ANDI            8'h17
+`define RISCV_SLLI            8'h18
+`define RISCV_SRLI            8'h19
+`define RISCV_SRAI            8'h1A
+`define RISCV_SUB             8'h1D
+`define RISCV_SLTU            8'h20
 `define RISCV_AND             8'h25
 `define RISCV_ORI             8'h17
 `define RISCV_SLT             8'h1F
-`define RISCV_SLTIU           8'h15
 `define RISCV_LB              8'h0B
+`define RISCV_LBU             8'h0E
+`define RISCV_LH              8'h0C
+`define RISCV_LHU             8'h0F
 `define RISCV_LW              8'h0D
 `define RISCV_SB              8'h10
+`define RISCV_SH              8'h11
 `define RISCV_SW              8'h12
 
 /*------------------- 通用寄存器堆参数 -------------------*/
