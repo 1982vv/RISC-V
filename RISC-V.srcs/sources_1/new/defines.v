@@ -26,6 +26,8 @@
 `define MREG_ENABLE     1'b1                // 写回阶段存储器结果选择信号
 `define BSEL_BUS        3 : 0               // 数据存储器字节选择信号宽度
 `define PC_INIT         32'h00000000        // PC初始值
+`define JUMP_BUS        25:0                //J型指令字中instr_index字段的长度
+`define JTSEL_BUS       1:0                 //转移地址选择信号的宽度
 
 /*------------------- 指令字参数 -------------------*/
 `define INST_ADDR_BUS   31: 0               // 指令的地址宽度
@@ -70,3 +72,7 @@
 `define REG_NUM         32                  // 寄存器数量32个
 `define REG_NOP         5'b00000            // 零号寄存器
 
+
+/************************SoC添加 begin*******************************/
+`define IO_ADDR_BASE        16'hbfd0        // 外部IO设备基址
+/************************SoC添加 end*********************************/

@@ -19,7 +19,10 @@ module exe_stage (
     output wire 					exe_wreg_o,
     output wire [`REG_BUS 		] 	exe_wd_o,
     output wire                     exe_mreg_o,
-    output wire [`REG_BUS      ]    exe_din_o
+    output wire [`REG_BUS      ]    exe_din_o,
+    
+    //转移指令
+    input wire [`INST_ADDR_BUS ]    ret_addr
     );
 
     // 直接传到下一阶段

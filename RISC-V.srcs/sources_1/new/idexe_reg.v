@@ -3,6 +3,9 @@
 module idexe_reg (
     input  wire 				  cpu_clk_50M,
     input  wire 				  cpu_rst_n,
+    //转移指令
+    input wire [`REG_BUS        ]   id_ret_addr,
+    output reg [`REG_BUS        ]   exe_ret_addr,
 
     // 来自译码阶段的信息
     input  wire [`ALUTYPE_BUS  ]  id_alutype,
@@ -35,7 +38,8 @@ module idexe_reg (
             exe_wa 			   <= `REG_NOP;
             exe_wreg    		   <= `WRITE_DISABLE;
             exe_mreg           <= `FALSE_V;
-            exe_din            <= `ZERO_WORD;           
+            exe_din            <= `ZERO_WORD;     
+            exe_ret_addr       <= `ZERO_WORD;      
         end
         // 将来自译码阶段的信息寄存并送至执行阶段
         else begin
@@ -46,7 +50,8 @@ module idexe_reg (
             exe_wa 			   <= id_wa;
             exe_wreg			   <= id_wreg;
             exe_mreg           <= id_mreg;
-            exe_din            <= id_din;            
+            exe_din            <= id_din;  
+            exe_ret_addr       <= id_ret_addr;          
         end
     end
 

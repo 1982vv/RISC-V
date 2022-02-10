@@ -29,7 +29,26 @@ module id_stage(
     output wire                     rreg1,
     output wire [`REG_ADDR_BUS ]    ra1,
     output wire                     rreg2,
-    output wire [`REG_ADDR_BUS ]    ra2
+    output wire [`REG_ADDR_BUS ]    ra2,
+    
+    /*-------------------- 定向前推 --------------------*/
+    //从执行阶段获得的写回信号
+    input wire                      exe2id_wreg,
+    input wire [`REG_ADDR_BUS]      exe2id_wa,
+    input wire [`INST_BUS]          exe2id_wd,
+    //从访存阶段获得的写回信号
+    input wire                      mem2id_wreg,
+    input wire [`REG_ADDR_BUS]      mem2id_wa,
+    input wire [`INST_BUS]          mem2id_wd,
+    
+    /*-------------------- 跳转指令 --------------------*/
+    input wire [`INST_ADDR_BUS]     pc_plus_4,
+
+    output wire [`INST_ADDR_BUS]    jump_addr_1,
+    output wire [`INST_ADDR_BUS]    jump_addr_2,
+    output wire [`INST_ADDR_BUS]    jump_addr_3,
+    output wire [`JTSEL_BUS    ]    jtsel,
+    output wire [`INST_ADDR_BUS]    ret_addr
     );
     
     // 根据小端模式组织指令字
@@ -60,7 +79,7 @@ module id_stage(
     wire inst_sra  = inst_reg& ~func7[6]& func7[5]& ~func7[4]&~func7[3]& ~func7[2]&~func7[1]&~func7[0]& func3[2] &~func3[1] &func3[0] ;
     //I型
     wire inst_ori  = ~func7[6]& ~func7[5]& func7[4]&~func7[3]& ~func7[2]&func7[1]&func7[0]& func3[2] &func3[1] &~func3[0] ;
-    //wire inst_lui  = ~func7[6]& func7[5]& func7[4]&~func7[3]& func7[2]&func7[1]&func7[0] ;
+    wire inst_lui  = ~func7[6]& func7[5]& func7[4]&~func7[3]& func7[2]&func7[1]&func7[0] ;
     wire inst_addi  = ~func7[6]& ~func7[5]& func7[4]&~func7[3]& ~func7[2]&func7[1]&func7[0]& ~func3[2] &~func3[1] &~func3[0] ;
     wire inst_slti  = ~func7[6]& ~func7[5]& func7[4]&~func7[3]& ~func7[2]&func7[1]&func7[0]&~func3[2] &func3[1] &~func3[0] ;
     wire inst_andi  = ~func7[6]& ~func7[5]& func7[4]&~func7[3]& ~func7[2]&func7[1]&func7[0]& func3[2] &func3[1] &func3[0] ;
@@ -69,11 +88,18 @@ module id_stage(
     wire inst_lbu  = ~func7[6]& ~func7[5]& ~func7[4]&~func7[3]& ~func7[2]&func7[1]&func7[0]& func3[2] &~func3[1] &~func3[0] ;
     wire inst_lh  = ~func7[6]& ~func7[5]& ~func7[4]&~func7[3]& ~func7[2]&func7[1]&func7[0]& ~func3[2] &~func3[1] &func3[0] ;
     wire inst_lhu  = ~func7[6]& ~func7[5]& ~func7[4]&~func7[3]& ~func7[2]&func7[1]&func7[0]& func3[2] &~func3[1] &func3[0] ;
-        
+    wire inst_jalr = func7[6]& func7[5]& ~func7[4]&~func7[3]& func7[2]&func7[1]&func7[0]& ~func3[2] &~func3[1] & ~func3[0] ;
     //S型
     wire inst_sb  = ~func7[6]& func7[5]& ~func7[4]&~func7[3]& ~func7[2]&func7[1]&func7[0]& ~func3[2] &~func3[1] &~func3[0] ;
     wire inst_sw  = ~func7[6]& func7[5]& ~func7[4]&~func7[3]& ~func7[2]&func7[1]&func7[0]& ~func3[2] &func3[1] &~func3[0] ;
     wire inst_sh  = ~func7[6]& func7[5]& ~func7[4]&~func7[3]& ~func7[2]&func7[1]&func7[0]& ~func3[2] &~func3[1] &func3[0] ;
+    
+    //B型
+    wire inst_beq = func7[6]& func7[5]& ~func7[4]&~func7[3]& ~func7[2]&func7[1]& func7[0]& ~func3[2] &~func3[1] &~func3[0] ;
+    wire inst_bne = func7[6]& func7[5]& ~func7[4]&~func7[3]& ~func7[2]&func7[1]& func7[0]& ~func3[2] &~func3[1] & func3[0] ;
+    
+    //J型
+    wire inst_jal = func7[6]& func7[5]& ~func7[4]&func7[3]& func7[2]&func7[1]& func7[0];
     /*------------------------------------------------------------------------------*/
 
     /*-------------------- 第二级译码逻辑：生成具体控制信号 --------------------*/
@@ -107,23 +133,46 @@ module id_stage(
         (inst_add |  inst_slt | inst_and | inst_sll |
         inst_ori |  inst_addi | inst_slti | inst_lb | inst_lw);
     //移位使能指令
-        wire shift =inst_sll;
-        //立即数使能信号
-        wire immsel = inst_ori  | inst_addi | inst_slti | inst_lb | inst_lw | inst_sb | inst_sw;
+    wire shift =inst_sll;
+    //生成相等使能信号
+    wire equ =(cpu_rst_n == `RST_ENABLE)?1'b0:
+                   (inst_beq)?(id_src1_o == id_src2_o):
+                   (inst_bne)?(id_src1_o != id_src2_o):1'b0;
+    //加载高半字使能信号
+    wire upper =inst_lui;
+    //立即数使能信号
+    wire immsel = inst_ori  | inst_addi | inst_slti | inst_lb | inst_lw | inst_sb | inst_sw;
     
-        //目的寄存器选择信号
-        wire rtsel=inst_ori | inst_addi | inst_slti | inst_lb | inst_lw;
-        //符号扩展使能信号
-        wire sext =inst_addi | inst_slti | inst_lb | inst_lw | inst_sb | inst_sw;
-        //存储器到寄存器使能信号
-        assign id_mreg_o =(cpu_rst_n == `RST_ENABLE)? 1'b0: (inst_lb | inst_lw);
-        //读通用寄存器堆端口1使能信号
-        assign rreg1=(cpu_rst_n == `RST_ENABLE)?1'b0:
+    //目的寄存器选择信号
+    wire rtsel=inst_ori | inst_addi | inst_slti | inst_lb | inst_lw;
+    //符号扩展使能信号
+    wire sext =inst_addi | inst_slti | inst_lb | inst_lw | inst_sb | inst_sw;
+    //存储器到寄存器使能信号
+    assign id_mreg_o =(cpu_rst_n == `RST_ENABLE)? 1'b0: (inst_lb | inst_lw);
+    //读通用寄存器堆端口1使能信号
+    assign rreg1=(cpu_rst_n == `RST_ENABLE)?1'b0:
         (inst_add | inst_slt | inst_and | 
         inst_ori | inst_addi | inst_slti | inst_lb | inst_lw | inst_sb | inst_sw);
-        //读通用寄存器堆读端口2使能信号
-        assign rreg2=(cpu_rst_n==`RST_ENABLE)?1'b0:
+    //读通用寄存器堆读端口2使能信号
+    assign rreg2=(cpu_rst_n==`RST_ENABLE)?1'b0:
          (inst_add |  inst_slt | inst_and |  inst_sll | inst_sb | inst_sw);
+    //生成子程序调用信号
+    wire jal=inst_jal;
+     
+    //生成转移地址选择信号
+    assign jtsel[1]= inst_beq & equ | inst_bne & equ;
+    assign jtsel[0]= inst_jal | inst_beq & equ | inst_bne & equ;
+     
+    //产生源操作数选择信号
+     wire [1:0] fwrd1 = (cpu_rst_n==`RST_ENABLE)? 2'b00:
+                             (exe2id_wreg == `WRITE_ENABLE && exe2id_wa == ra1 && rreg1 ==`READ_ENABLE)?2'b01:
+                             (mem2id_wreg == `WRITE_ENABLE && mem2id_wa == ra1 && rreg1 ==`READ_ENABLE)?2'b10:
+                             (rreg1 ==`READ_ENABLE)?2'b11:2'b00;
+     
+      wire [1:0] fwrd2 = (cpu_rst_n==`RST_ENABLE)? 2'b00:
+                             (exe2id_wreg == `WRITE_ENABLE && exe2id_wa == ra2 && rreg2 ==`READ_ENABLE)?2'b01:
+                             (mem2id_wreg == `WRITE_ENABLE && mem2id_wa == ra2 && rreg2 ==`READ_ENABLE)?2'b10:
+                             (rreg2 ==`READ_ENABLE)?2'b11:2'b00;
     /*------------------------------------------------------------------------------*/
 
     // 读通用寄存器堆端口1的地址为rs1字段，读端口2的地址为rs2字段
@@ -145,5 +194,18 @@ module id_stage(
     assign id_src2_o =(cpu_rst_n == `RST_ENABLE)? `ZERO_WORD:
     (immsel ==`IMM_ENABLE )?imm_ext:
     (rreg2 == `READ_ENABLE )? rd2: `ZERO_WORD;
+    
+    //生成计算转移地址所需信号
+    wire [`INST_ADDR_BUS] pc_plus_8=pc_plus_4+4;
+    wire [`JUMP_BUS     ] instr_index =id_inst[25:0];
+    wire [`INST_ADDR_BUS] imm_jump={{14{imm[15]}},imm,2'b00};
+
+    //获得转移地址
+    assign jump_addr_1 ={pc_plus_4[31:28],instr_index,2'b00};
+    assign jump_addr_2 =pc_plus_4+imm_jump;
+    assign jump_addr_3 =id_src1_o;
+
+    //生成子程序调用的返回地址
+    assign ret_addr =pc_plus_8;
 
 endmodule
