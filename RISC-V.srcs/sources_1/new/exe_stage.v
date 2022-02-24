@@ -13,7 +13,7 @@ module exe_stage (
     input  wire                    exe_mreg_i,
     input  wire [`REG_BUS      ]   exe_din_i,
 
-    // 送至执行阶段的信息
+    // 送至访存阶段的信息
     output wire [`ALUOP_BUS	    ] 	exe_aluop_o,
     output wire [`REG_ADDR_BUS 	] 	exe_wa_o,
     output wire 					exe_wreg_o,
@@ -22,9 +22,12 @@ module exe_stage (
     output wire [`REG_BUS      ]    exe_din_o,
     
     //转移指令
-    input wire [`INST_ADDR_BUS ]    ret_addr
+    input wire [`INST_ADDR_BUS ]    ret_addr,
+    
+    //暂停
+    output wire stallreq_exe
     );
-
+     
     // 直接传到下一阶段
     assign exe_aluop_o = (cpu_rst_n == `RST_ENABLE) ? 8'b0 : exe_aluop_i;
     assign exe_mreg_o  = (cpu_rst_n == `RST_ENABLE) ? 1'b0: exe_mreg_i;
@@ -40,12 +43,21 @@ module exe_stage (
     // 根据内部操作码aluop进行逻辑运算
     assign logicres=(cpu_rst_n ==`RST_ENABLE)? `ZERO_WORD:
     (exe_aluop_i == `RISCV_AND)? (exe_src1_i & exe_src2_i):
+    (exe_aluop_i == `RISCV_OR)? (exe_src1_i | exe_src2_i):
     (exe_aluop_i == `RISCV_ORI)? (exe_src1_i | exe_src2_i):
+    (exe_aluop_i == `RISCV_ANDI)? (exe_src1_i & exe_src2_i):
+    (exe_aluop_i == `RISCV_XORI)? (exe_src1_i ^ exe_src2_i):
+    (exe_aluop_i == `RISCV_XOR)? (exe_src1_i ^ exe_src2_i):
     (exe_aluop_i == `RISCV_LUI)? exe_src2_i : `ZERO_WORD;
     
     //根据内部操作码aluop进行移位运算
     assign shiftres=(cpu_rst_n == `RST_ENABLE)? `ZERO_WORD:
-    (exe_aluop_i == `RISCV_SLL)? (exe_src2_i << exe_src1_i) : `ZERO_WORD;
+    (exe_aluop_i == `RISCV_SLL)? (exe_src2_i << exe_src1_i[4:0]) :
+    (exe_aluop_i == `RISCV_SRL)? (exe_src2_i >> exe_src1_i[4:0]) :
+    (exe_aluop_i == `RISCV_SRA)? ( {32{exe_src2_i[31]}} << ( 6'd32 - {1'b0, exe_src1_i[4:0]} ) ) | ( exe_src2_i >> exe_src1_i[4:0] ) :
+    (exe_aluop_i == `RISCV_SRLI)? (exe_src2_i >> exe_src1_i) :
+    (exe_aluop_i == `RISCV_SRAI)? ( {32{exe_src2_i[31]}} << ( 6'd32 - {1'b0, exe_src1_i[4:0]} ) ) | ( exe_src2_i >> exe_src1_i[4:0] ) :
+    (exe_aluop_i == `RISCV_SLLI)? (exe_src2_i << exe_src1_i) : `ZERO_WORD;
 
     //根据内部操作码aluop进行数据移动
      assign moveres =(cpu_rst_n ==`RST_ENABLE)? `ZERO_WORD: `ZERO_WORD;
@@ -53,11 +65,19 @@ module exe_stage (
      //根据内部操作码 aluop进行算术运算
      assign arithres =(cpu_rst_n ==`RST_ENABLE)? `ZERO_WORD:
       (exe_aluop_i == `RISCV_ADD) ?(exe_src1_i+ exe_src2_i):
+      (exe_aluop_i == `RISCV_ADDI) ?(exe_src1_i+ exe_src2_i):
+      (exe_aluop_i == `RISCV_SUB) ?(exe_src1_i+(~exe_src2_i)+1):
       (exe_aluop_i == `RISCV_LB ) ?(exe_src1_i+ exe_src2_i):
+      (exe_aluop_i == `RISCV_LBU ) ?(exe_src1_i+ exe_src2_i):
+      (exe_aluop_i == `RISCV_LH ) ?(exe_src1_i+ exe_src2_i):
+      (exe_aluop_i == `RISCV_LHU ) ?(exe_src1_i+ exe_src2_i):
       (exe_aluop_i == `RISCV_LW ) ?(exe_src1_i+ exe_src2_i):
       (exe_aluop_i == `RISCV_SB ) ?(exe_src1_i+ exe_src2_i):
       (exe_aluop_i == `RISCV_SW ) ?(exe_src1_i+ exe_src2_i):
+      (exe_aluop_i == `RISCV_SH ) ?(exe_src1_i+ exe_src2_i):
       (exe_aluop_i == `RISCV_SLT) ?(($signed(exe_src1_i) < $signed(exe_src2_i))?32'b1: 32'b0):
+      (exe_aluop_i == `RISCV_SLTU) ?(($unsigned(exe_src1_i) < $unsigned(exe_src2_i))?32'b1: 32'b0):
+      (exe_aluop_i == `RISCV_SLTI) ?(($signed(exe_src1_i) < $signed(exe_src2_i))?32'b1: 32'b0):
       (exe_aluop_i == `RISCV_SLTIU)? ((exe_src1_i < exe_src2_i)? 32'b1 : 32'b0): `ZERO_WORD;
 
       //根据内部 aluop操作码进行乘法运算,并保存送至下一阶段
@@ -72,5 +92,7 @@ module exe_stage (
                       (exe_alutype_i == `SHIFT    ) ? shiftres  :
                       (exe_alutype_i == `MOVE    ) ? moveres  :
                       (exe_alutype_i == `ARITH    ) ? arithres  :`ZERO_WORD;
+                      
+    assign stallreq_exe =(cpu_rst_n ==`RST_ENABLE)? `NOSTOP:`NOSTOP;
 
 endmodule

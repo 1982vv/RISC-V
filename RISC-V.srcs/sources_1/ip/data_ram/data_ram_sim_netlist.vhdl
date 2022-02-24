@@ -1,10 +1,10 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.3 (win64) Build 2018833 Wed Oct  4 19:58:22 MDT 2017
--- Date        : Thu Jan 27 12:12:44 2022
+-- Date        : Thu Feb 24 13:46:56 2022
 -- Host        : DESKTOP-LGQGIHC running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
---               d:/vivado/RISC-V/RISC-V.srcs/sources_1/ip/data_ram/data_ram_sim_netlist.vhdl
+--               D:/vivado/RISC-V/RISC-V.srcs/sources_1/ip/data_ram/data_ram_sim_netlist.vhdl
 -- Design      : data_ram
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -14,7 +14,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
-entity data_ram_blk_mem_gen_prim_wrapper is
+entity data_ram_blk_mem_gen_prim_wrapper_init is
   port (
     douta : out STD_LOGIC_VECTOR ( 15 downto 0 );
     clka : in STD_LOGIC;
@@ -24,10 +24,10 @@ entity data_ram_blk_mem_gen_prim_wrapper is
     wea : in STD_LOGIC_VECTOR ( 1 downto 0 )
   );
   attribute ORIG_REF_NAME : string;
-  attribute ORIG_REF_NAME of data_ram_blk_mem_gen_prim_wrapper : entity is "blk_mem_gen_prim_wrapper";
-end data_ram_blk_mem_gen_prim_wrapper;
+  attribute ORIG_REF_NAME of data_ram_blk_mem_gen_prim_wrapper_init : entity is "blk_mem_gen_prim_wrapper_init";
+end data_ram_blk_mem_gen_prim_wrapper_init;
 
-architecture STRUCTURE of data_ram_blk_mem_gen_prim_wrapper is
+architecture STRUCTURE of data_ram_blk_mem_gen_prim_wrapper_init is
   signal \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_n_87\ : STD_LOGIC;
   signal \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_n_88\ : STD_LOGIC;
   signal \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_CASCADEOUTA_UNCONNECTED\ : STD_LOGIC;
@@ -65,7 +65,7 @@ begin
       INITP_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
       INITP_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
       INITP_0F => X"0000000000000000000000000000000000000000000000000000000000000000",
-      INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+      INIT_00 => X"000000000000000000000000000000000000000000000000DDCCFFEE99883412",
       INIT_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
       INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
       INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
@@ -267,7 +267,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
-entity \data_ram_blk_mem_gen_prim_wrapper__parameterized0\ is
+entity \data_ram_blk_mem_gen_prim_wrapper_init__parameterized0\ is
   port (
     douta : out STD_LOGIC_VECTOR ( 15 downto 0 );
     clka : in STD_LOGIC;
@@ -277,10 +277,10 @@ entity \data_ram_blk_mem_gen_prim_wrapper__parameterized0\ is
     wea : in STD_LOGIC_VECTOR ( 1 downto 0 )
   );
   attribute ORIG_REF_NAME : string;
-  attribute ORIG_REF_NAME of \data_ram_blk_mem_gen_prim_wrapper__parameterized0\ : entity is "blk_mem_gen_prim_wrapper";
-end \data_ram_blk_mem_gen_prim_wrapper__parameterized0\;
+  attribute ORIG_REF_NAME of \data_ram_blk_mem_gen_prim_wrapper_init__parameterized0\ : entity is "blk_mem_gen_prim_wrapper_init";
+end \data_ram_blk_mem_gen_prim_wrapper_init__parameterized0\;
 
-architecture STRUCTURE of \data_ram_blk_mem_gen_prim_wrapper__parameterized0\ is
+architecture STRUCTURE of \data_ram_blk_mem_gen_prim_wrapper_init__parameterized0\ is
   signal \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_n_87\ : STD_LOGIC;
   signal \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_n_88\ : STD_LOGIC;
   signal \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_CASCADEOUTA_UNCONNECTED\ : STD_LOGIC;
@@ -318,7 +318,7 @@ begin
       INITP_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
       INITP_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
       INITP_0F => X"0000000000000000000000000000000000000000000000000000000000000000",
-      INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+      INIT_00 => X"00000000000000000000000000000000000000000000000033227766BBAA7856",
       INIT_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
       INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
       INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
@@ -535,7 +535,7 @@ end data_ram_blk_mem_gen_prim_width;
 
 architecture STRUCTURE of data_ram_blk_mem_gen_prim_width is
 begin
-\prim_noinit.ram\: entity work.data_ram_blk_mem_gen_prim_wrapper
+\prim_init.ram\: entity work.data_ram_blk_mem_gen_prim_wrapper_init
      port map (
       addra(10 downto 0) => addra(10 downto 0),
       clka => clka,
@@ -564,7 +564,7 @@ end \data_ram_blk_mem_gen_prim_width__parameterized0\;
 
 architecture STRUCTURE of \data_ram_blk_mem_gen_prim_width__parameterized0\ is
 begin
-\prim_noinit.ram\: entity work.\data_ram_blk_mem_gen_prim_wrapper__parameterized0\
+\prim_init.ram\: entity work.\data_ram_blk_mem_gen_prim_wrapper_init__parameterized0\
      port map (
       addra(10 downto 0) => addra(10 downto 0),
       clka => clka,
@@ -825,11 +825,11 @@ entity data_ram_blk_mem_gen_v8_4_0 is
   attribute C_INIT_FILE : string;
   attribute C_INIT_FILE of data_ram_blk_mem_gen_v8_4_0 : entity is "data_ram.mem";
   attribute C_INIT_FILE_NAME : string;
-  attribute C_INIT_FILE_NAME of data_ram_blk_mem_gen_v8_4_0 : entity is "no_coe_file_loaded";
+  attribute C_INIT_FILE_NAME of data_ram_blk_mem_gen_v8_4_0 : entity is "data_ram.mif";
   attribute C_INTERFACE_TYPE : integer;
   attribute C_INTERFACE_TYPE of data_ram_blk_mem_gen_v8_4_0 : entity is 0;
   attribute C_LOAD_INIT_FILE : integer;
-  attribute C_LOAD_INIT_FILE of data_ram_blk_mem_gen_v8_4_0 : entity is 0;
+  attribute C_LOAD_INIT_FILE of data_ram_blk_mem_gen_v8_4_0 : entity is 1;
   attribute C_MEM_TYPE : integer;
   attribute C_MEM_TYPE of data_ram_blk_mem_gen_v8_4_0 : entity is 0;
   attribute C_MUX_PIPELINE_STAGES : integer;
@@ -1148,11 +1148,11 @@ architecture STRUCTURE of data_ram is
   attribute C_INIT_FILE : string;
   attribute C_INIT_FILE of U0 : label is "data_ram.mem";
   attribute C_INIT_FILE_NAME : string;
-  attribute C_INIT_FILE_NAME of U0 : label is "no_coe_file_loaded";
+  attribute C_INIT_FILE_NAME of U0 : label is "data_ram.mif";
   attribute C_INTERFACE_TYPE : integer;
   attribute C_INTERFACE_TYPE of U0 : label is 0;
   attribute C_LOAD_INIT_FILE : integer;
-  attribute C_LOAD_INIT_FILE of U0 : label is 0;
+  attribute C_LOAD_INIT_FILE of U0 : label is 1;
   attribute C_MEM_TYPE : integer;
   attribute C_MEM_TYPE of U0 : label is 0;
   attribute C_MUX_PIPELINE_STAGES : integer;

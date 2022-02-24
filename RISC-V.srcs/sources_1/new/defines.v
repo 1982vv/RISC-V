@@ -48,12 +48,16 @@
 `define RISCV_SLTI            8'h14
 `define RISCV_SLTIU           8'h15
 `define RISCV_XORI            8'h16
-`define RISCV_ANDI            8'h17
-`define RISCV_SLLI            8'h18
-`define RISCV_SRLI            8'h19
-`define RISCV_SRAI            8'h1A
+`define RISCV_ANDI            8'h18
+`define RISCV_SLLI            8'h19
+`define RISCV_SRLI            8'h1A
+`define RISCV_SRAI            8'h1B
 `define RISCV_SUB             8'h1D
 `define RISCV_SLTU            8'h20
+`define RISCV_XOR             8'h21
+`define RISCV_SRL             8'h22
+`define RISCV_SRA             8'h23
+`define RISCV_OR              8'h24
 `define RISCV_AND             8'h25
 `define RISCV_ORI             8'h17
 `define RISCV_SLT             8'h1F
@@ -65,12 +69,18 @@
 `define RISCV_SB              8'h10
 `define RISCV_SH              8'h11
 `define RISCV_SW              8'h12
+`define RISCV_BNE             8'h06
 
 /*------------------- 通用寄存器堆参数 -------------------*/
 `define REG_BUS         31: 0               // 寄存器数据宽度
 `define REG_ADDR_BUS    4 : 0               // 寄存器的地址宽度
 `define REG_NUM         32                  // 寄存器数量32个
 `define REG_NOP         5'b00000            // 零号寄存器
+
+/*------------------- 流水线暂停 -------------------*/
+`define STALL_BUS       3 : 0               // 暂停信号宽度
+`define STOP            1'b1                // 流水线暂停
+`define NOSTOP          1'b0                // 流水线不暂停
 
 
 /************************SoC添加 begin*******************************/

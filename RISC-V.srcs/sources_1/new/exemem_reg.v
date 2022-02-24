@@ -3,6 +3,8 @@
 module exemem_reg (
     input  wire 				cpu_clk_50M,
     input  wire 				cpu_rst_n,
+    
+    input wire [`STALL_BUS ] stall,
 
     // 来自执行阶段的信息
     input  wire [`ALUOP_BUS   ] exe_aluop,
@@ -30,7 +32,15 @@ module exemem_reg (
         mem_mreg               <= `WRITE_DISABLE;
         mem_din                <= `ZERO_WORD;
     end
-    else begin
+    else if(stall[3]==`STOP) begin
+        mem_aluop              <= `RISCV_SLL;
+        mem_wa                 <= `REG_NOP;
+        mem_wreg               <= `WRITE_DISABLE;
+        mem_wd                 <= `ZERO_WORD;
+        mem_mreg               <= `WRITE_DISABLE;
+        mem_din                <= `ZERO_WORD;
+    end    
+    else if(stall[3]==`NOSTOP) begin
         mem_aluop              <= exe_aluop;
         mem_wa 				   <= exe_wa;
         mem_wreg 			   <= exe_wreg;
