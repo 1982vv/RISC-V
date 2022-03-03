@@ -42,6 +42,7 @@
 
 // 操作码aluop
 `define RISCV_LUI             8'h01
+`define RISCV_JAL             8'h03
 `define RISCV_SLL             8'h1E
 `define RISCV_ADD             8'h1C
 `define RISCV_ADDI            8'h13
@@ -70,6 +71,14 @@
 `define RISCV_SH              8'h11
 `define RISCV_SW              8'h12
 `define RISCV_BNE             8'h06
+`define RISCV_MUL             8'h30
+`define RISCV_MULH            8'h31
+`define RISCV_MULHSU          8'h32
+`define RISCV_MULHU           8'h33
+`define RISCV_DIV             8'h34
+`define RISCV_DIVU            8'h35
+`define RISCV_REM             8'h36
+`define RISCV_REMU            8'h37
 
 /*------------------- 通用寄存器堆参数 -------------------*/
 `define REG_BUS         31: 0               // 寄存器数据宽度
@@ -81,6 +90,16 @@
 `define STALL_BUS       3 : 0               // 暂停信号宽度
 `define STOP            1'b1                // 流水线暂停
 `define NOSTOP          1'b0                // 流水线不暂停
+
+/*------------------- 除法指令参数 -------------------*/
+`define DIV_FREE            2'b00           // 除法准备状态
+`define DIV_BY_ZERO         2'b01           // 判断是否除零状态
+`define DIV_ON              2'b10           // 除法开始状态
+`define DIV_END             2'b11           // 除法结束状态
+`define DIV_READY           1'b1            // 除法运算结束信号
+`define DIV_NOT_READY       1'b0            // 除法运算未结束信号
+`define DIV_START           1'b1            // 除法开始信号
+`define DIV_STOP            1'b0            // 除法未开始信号
 
 
 /************************SoC添加 begin*******************************/

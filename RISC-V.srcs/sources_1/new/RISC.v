@@ -100,11 +100,18 @@ module RISC(
     wire      stallreq_id;
     wire      stallreq_exe;
     wire [`STALL_BUS ] stall; 
+    
+    //流水线清空
+    wire      id_clear;
+    wire [`INST_ADDR_BUS] id_pc_next;
+    wire      clear;
+    wire [`INST_ADDR_BUS] pc_next;
 
     if_stage if_stage0(.cpu_clk_50M(cpu_clk_50M), .cpu_rst_n(cpu_rst_n),
         .pc(pc), .ice(ice), .iaddr(iaddr),.jump_addr_1(jump_addr_1),
             .jump_addr_2(jump_addr_2),.jump_addr_3(jump_addr_3),
-            .jtsel(jtsel),.pc_plus_4(pc_plus_4),.stall(stall));
+            .jtsel(jtsel),.pc_plus_4(pc_plus_4),.stall(stall),.clear(clear),.pc_next_i(pc_next)
+    );
     
     ifid_reg ifid_reg0(.cpu_clk_50M(cpu_clk_50M), .cpu_rst_n(cpu_rst_n),
         .if_pc(pc), .id_pc(id_pc_i),.if_pc_plus_4(pc_plus_4),
@@ -126,7 +133,7 @@ module RISC(
         .pc_plus_4(id_pc_plus_4),.ret_addr(ret_addr),
         .jump_addr_1(jump_addr_1),.jump_addr_2(jump_addr_2),
         .jump_addr_3(jump_addr_3),.jtsel(jtsel),.exe2id_mreg(exe_mreg_o),
-        .mem2id_mreg(mem_mreg_o),.stallreq_id(stallreq_id)
+        .mem2id_mreg(mem_mreg_o),.stallreq_id(stallreq_id),.clear(id_clear),.pc_next_o(id_pc_next)
     );
     
     regfile regfile0(.cpu_clk_50M(cpu_clk_50M), .cpu_rst_n(cpu_rst_n),
@@ -147,7 +154,7 @@ module RISC(
         .id_ret_addr(ret_addr),.exe_ret_addr(exe_ret_addr),.stall(stall)
     );
     
-    exe_stage exe_stage0(.cpu_rst_n(cpu_rst_n),
+    exe_stage exe_stage0(.cpu_rst_n(cpu_rst_n),.cpu_clk_50M(cpu_clk_50M),
         .exe_alutype_i(exe_alutype_i), .exe_aluop_i(exe_aluop_i),
         .exe_src1_i(exe_src1_i), .exe_src2_i(exe_src2_i),
         .exe_wa_i(exe_wa_i), .exe_wreg_i(exe_wreg_i),
@@ -191,5 +198,8 @@ module RISC(
     scu scu0(
         .cpu_rst_n(cpu_rst_n),.stallreq_id(stallreq_id),
         .stallreq_exe(stallreq_exe),.stall(stall)
+    );
+    clear clear0(
+        .id_clear(id_clear),.pc_next(id_pc_next),.clear(clear),.pc_next_o(pc_next)
     );
 endmodule

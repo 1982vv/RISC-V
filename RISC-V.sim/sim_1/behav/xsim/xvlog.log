@@ -10,6 +10,8 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "D:/vivado/RISC-V/RISC-V.srcs/source
 INFO: [VRFC 10-311] analyzing module RISC
 INFO: [VRFC 10-2263] Analyzing Verilog file "D:/vivado/RISC-V/RISC-V.srcs/sources_1/new/RISCV_SYS.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module RISCV_SYS
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/vivado/RISC-V/RISC-V.srcs/sources_1/new/clear.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module clear
 INFO: [VRFC 10-2263] Analyzing Verilog file "D:/vivado/RISC-V/RISC-V.srcs/sources_1/new/dev_if.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module dev_if
 INFO: [VRFC 10-2263] Analyzing Verilog file "D:/vivado/RISC-V/RISC-V.srcs/sources_1/new/exe_stage.v" into library xil_defaultlib

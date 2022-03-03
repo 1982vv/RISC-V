@@ -3,10 +3,10 @@ Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
 Running: D:/vivado/2017.3/bin/unwrapped/win64.o/xelab.exe -wto e2af8a654fe64042a77c5344093bf04c --incr --debug typical --relax --mt 2 -L blk_mem_gen_v8_4_0 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot RISCV_tb_behav xil_defaultlib.RISCV_tb xil_defaultlib.glbl -log elaborate.log 
 Using 2 slave threads.
 Starting static elaboration
-WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 4 for port dre [D:/vivado/RISC-V/RISC-V.srcs/sources_1/new/RISC.v:174]
-WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 4 for port mem_dre [D:/vivado/RISC-V/RISC-V.srcs/sources_1/new/RISC.v:179]
-WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 4 for port wb_dre [D:/vivado/RISC-V/RISC-V.srcs/sources_1/new/RISC.v:181]
-WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 4 for port wb_dre_i [D:/vivado/RISC-V/RISC-V.srcs/sources_1/new/RISC.v:186]
+WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 4 for port dre [D:/vivado/RISC-V/RISC-V.srcs/sources_1/new/RISC.v:181]
+WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 4 for port mem_dre [D:/vivado/RISC-V/RISC-V.srcs/sources_1/new/RISC.v:186]
+WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 4 for port wb_dre [D:/vivado/RISC-V/RISC-V.srcs/sources_1/new/RISC.v:188]
+WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 4 for port wb_dre_i [D:/vivado/RISC-V/RISC-V.srcs/sources_1/new/RISC.v:193]
 WARNING: [VRFC 10-278] actual bit length 4 differs from formal bit length 1 for port io_we [D:/vivado/RISC-V/RISC-V.srcs/sources_1/new/RISCV_SYS.v:83]
 WARNING: [VRFC 10-278] actual bit length 15 differs from formal bit length 11 for port addra [D:/vivado/RISC-V/RISC-V.srcs/sources_1/new/RISCV_SYS.v:92]
 WARNING: [VRFC 10-278] actual bit length 4 differs from formal bit length 1 for port we [D:/vivado/RISC-V/RISC-V.srcs/sources_1/new/RISCV_SYS.v:112]
@@ -31,6 +31,7 @@ Compiling module xil_defaultlib.mem_stage
 Compiling module xil_defaultlib.memwb_reg
 Compiling module xil_defaultlib.wb_stage
 Compiling module xil_defaultlib.scu
+Compiling module xil_defaultlib.clear
 Compiling module xil_defaultlib.RISC
 Compiling module xil_defaultlib.dev_if
 Compiling module blk_mem_gen_v8_4_0.blk_mem_gen_v8_4_0_output_stage(...

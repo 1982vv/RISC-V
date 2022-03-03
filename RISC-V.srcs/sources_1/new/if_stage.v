@@ -15,7 +15,9 @@ module if_stage (
     input   wire [`INST_ADDR_BUS]   jump_addr_2,
     input   wire [`INST_ADDR_BUS]   jump_addr_3,
     input   wire [`JTSEL_BUS    ]   jtsel,
-    output  wire [`INST_ADDR_BUS]   pc_plus_4
+    output  wire [`INST_ADDR_BUS]   pc_plus_4,
+    input   wire       clear,
+    input   wire [`INST_ADDR_BUS] pc_next_i
     );
     
     wire [`INST_ADDR_BUS] pc_next; 
@@ -23,7 +25,8 @@ module if_stage (
     //跳转指令
     assign pc_plus_4=(cpu_rst_n==`RST_ENABLE)?`PC_INIT:pc+4;
 
-    assign pc_next = (jtsel == 2'b00)? pc_plus_4:   // 计算下一条指令的地址
+    assign pc_next = (clear==1'b1)? pc_next_i:
+                     (jtsel == 2'b00)? pc_plus_4:   // 计算下一条指令的地址
                      (jtsel == 2'b01)?jump_addr_1:
                      (jtsel == 2'b10)?jump_addr_3:
                      (jtsel == 2'b11)?jump_addr_2:`PC_INIT;
@@ -36,12 +39,13 @@ module if_stage (
         end
     end
  
-    assign ice = (stall[1] == 1'b1)?1'b0:ce;
+    assign ice = (stall[1] == 1'b1)?1'b0:
+                 (clear==1'b1)?1'b0:ce;
     
     always @(posedge cpu_clk_50M) begin
         if (ce == `CHIP_DISABLE)
-            pc <= `PC_INIT;                   // 指令存储器禁用的时候，PC保持初始值（MiniMIPS32中设置为0x00000000）
-        else if(stall[0] == `NOSTOP)begin
+            pc <= `PC_INIT;                   // 指令存储器禁用的时候，PC保持初始值（设置为0x00000000）
+        else if(stall[0] == `NOSTOP )begin
             pc <= pc_next;                    // 指令存储器使能后，PC值每时钟周期加4     
         end
     end

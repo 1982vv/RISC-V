@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="1245330186fs"></ZoomEndTime>
-      <Cursor1Time time="465000000fs"></Cursor1Time>
+      <ZoomEndTime time="1413111420fs"></ZoomEndTime>
+      <Cursor1Time time="526635000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="159"></NameColumnWidth>
-      <ValueColumnWidth column_width="66"></ValueColumnWidth>
+      <ValueColumnWidth column_width="136"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="44" />
+   <WVObjectSize size="52" />
    <wvobject fp_name="/RISCV_tb/sys_clk_100M" type="logic">
       <obj_property name="ElementShortName">sys_clk_100M</obj_property>
       <obj_property name="ObjectShortName">sys_clk_100M</obj_property>
@@ -195,5 +195,37 @@
    <wvobject fp_name="/RISCV_tb/Soc/risc_v/if_stage0/jump_addr_2" type="array">
       <obj_property name="ElementShortName">jump_addr_2[31:0]</obj_property>
       <obj_property name="ObjectShortName">jump_addr_2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RISCV_tb/Soc/risc_v/id_stage0/pc_plus_4" type="array">
+      <obj_property name="ElementShortName">pc_plus_4[31:0]</obj_property>
+      <obj_property name="ObjectShortName">pc_plus_4[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RISCV_tb/Soc/risc_v/if_stage0/pc" type="array">
+      <obj_property name="ElementShortName">pc[31:0]</obj_property>
+      <obj_property name="ObjectShortName">pc[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RISCV_tb/Soc/risc_v/if_stage0/jump_addr_1" type="array">
+      <obj_property name="ElementShortName">jump_addr_1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">jump_addr_1[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RISCV_tb/Soc/risc_v/id_stage0/jal_imm" type="array">
+      <obj_property name="ElementShortName">jal_imm[19:0]</obj_property>
+      <obj_property name="ObjectShortName">jal_imm[19:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RISCV_tb/Soc/risc_v/if_stage0/pc_next" type="array">
+      <obj_property name="ElementShortName">pc_next[31:0]</obj_property>
+      <obj_property name="ObjectShortName">pc_next[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RISCV_tb/Soc/risc_v/if_stage0/stall" type="array">
+      <obj_property name="ElementShortName">stall[3:0]</obj_property>
+      <obj_property name="ObjectShortName">stall[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RISCV_tb/Soc/risc_v/exe_stage0/mulres" type="array">
+      <obj_property name="ElementShortName">mulres[63:0]</obj_property>
+      <obj_property name="ObjectShortName">mulres[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/RISCV_tb/Soc/risc_v/exe_stage0/mulressu" type="array">
+      <obj_property name="ElementShortName">mulressu[63:0]</obj_property>
+      <obj_property name="ObjectShortName">mulressu[63:0]</obj_property>
    </wvobject>
 </wave_config>
